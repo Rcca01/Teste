@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.posterr.adapter.PosterAdapter
@@ -17,9 +20,9 @@ import com.example.posterr.models.Poster
 class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
-    private var posters = mutableListOf<Poster>()
-    private var adapter = PosterAdapter(posters)
     private lateinit var rvPoster: RecyclerView
+    private lateinit var viewModel: PosterViewModel
+    private lateinit var posterAdapter: PosterAdapter
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -33,24 +36,34 @@ class FirstFragment : Fragment() {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         rvPoster = binding.rvPoster
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = activity?.run {
+                ViewModelProviders.of(this).get(PosterViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
+
+        startObservableInsertNewPoster()
         initRecyclerView()
         binding.buttonFirst.setOnClickListener {
-            val poster = Poster("testing recycleview")
-            posters.add(poster)
-            adapter.notifyItemInserted(posters.lastIndex)
-            //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
     }
 
     private fun initRecyclerView() {
-        rvPoster.adapter = adapter
+        posterAdapter = PosterAdapter(viewModel.getListPosters())
+        rvPoster.adapter = posterAdapter
         val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rvPoster.layoutManager = layoutManager
+    }
+
+    private fun startObservableInsertNewPoster(){
+        viewModel.listPosters().observe(viewLifecycleOwner, Observer {
+            posterAdapter.notifyItemInserted(0)
+            rvPoster.scrollToPosition(0)
+        })
     }
 
     override fun onDestroyView() {

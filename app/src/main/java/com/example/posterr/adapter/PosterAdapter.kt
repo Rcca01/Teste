@@ -10,7 +10,7 @@ import com.example.posterr.R
 import com.example.posterr.models.Poster
 
 class PosterAdapter(
-    private val posters: List<Poster>
+    private val posters: MutableList<Poster>
 ): RecyclerView.Adapter<PosterAdapter.VH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -29,7 +29,7 @@ class PosterAdapter(
 
     override fun getItemCount(): Int = posters.size
 
-    class VH(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class VH(itemView: View): RecyclerView.ViewHolder(itemView) {
         val textPoster: TextView = itemView.findViewById(R.id.tvPoster)
     }
 
