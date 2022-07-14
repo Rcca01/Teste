@@ -1,7 +1,6 @@
 package com.example.posterr
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -10,8 +9,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.ViewModelProviders
+import com.example.posterr.bottomSheetDialog.DialogNewPoster
 import com.example.posterr.databinding.ActivityMainBinding
-import com.example.posterr.models.Poster
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,10 +33,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
-            val poster = Poster("testing recycleview")
-            viewModel.addNewPoster(poster)
-            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //.setAction("Action", null).show()
+           val dialog = DialogNewPoster.newInstance("New Post", )
+            dialog.show(supportFragmentManager, "ActivityMain")
         }
     }
 
