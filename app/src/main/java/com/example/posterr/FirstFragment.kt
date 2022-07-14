@@ -47,9 +47,6 @@ class FirstFragment : Fragment() {
 
         startObservableInsertNewPoster()
         initRecyclerView()
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
     }
 
     private fun initRecyclerView() {
@@ -68,6 +65,7 @@ class FirstFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.listPosters().removeObservers(viewLifecycleOwner)
         _binding = null
     }
 }

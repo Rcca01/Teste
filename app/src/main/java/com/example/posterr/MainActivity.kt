@@ -49,9 +49,14 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> navigationFragment()
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun navigationFragment(): Boolean {
+        findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.SecondFragment)
+        return true
     }
 
     override fun onSupportNavigateUp(): Boolean {
