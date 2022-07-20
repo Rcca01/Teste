@@ -3,13 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.259375" />
+        <entry key="../../.gradle/caches/transforms-3/f57567925e7fa33de7bf4ed4afc92d47/transformed/appcompat-1.4.0/res/layout/support_simple_spinner_dropdown_item.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/bottom_sheet_new_poster.xml" value="0.25" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dialog_new_poster.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/item_poster.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/item_user.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_poster.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_user.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/list_view.xml" value="0.24427083333333333" />
       </map>
     </option>
   </component>

@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
-           val dialog = DialogNewPoster.newInstance("New Post", )
+           val dialog = DialogNewPoster.newInstance("New Post", true, null)
             dialog.show(supportFragmentManager, "ActivityMain")
         }
     }

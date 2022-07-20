@@ -5,14 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.posterr.adapter.PosterAdapter
+import com.example.posterr.bottomSheetDialog.DialogNewPoster
 import com.example.posterr.databinding.FragmentFirstBinding
-import com.example.posterr.models.Poster
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -50,7 +51,7 @@ class FirstFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        posterAdapter = PosterAdapter(viewModel.getListPosters())
+        posterAdapter = PosterAdapter(viewModel.getListPosters(),this::addComment)
         rvPoster.adapter = posterAdapter
         val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rvPoster.layoutManager = layoutManager
@@ -61,6 +62,14 @@ class FirstFragment : Fragment() {
             posterAdapter.notifyItemInserted(0)
             rvPoster.scrollToPosition(0)
         })
+        viewModel.reloadItemList().observe(viewLifecycleOwner, Observer {
+            posterAdapter.notifyItemChanged(it)
+        })
+    }
+
+    private fun addComment(posterPosition:Int) {
+        val dialog = DialogNewPoster.newInstance("New Comment", false, posterPosition)
+        dialog.show(requireActivity().supportFragmentManager, "FirstFragment")
     }
 
     override fun onDestroyView() {

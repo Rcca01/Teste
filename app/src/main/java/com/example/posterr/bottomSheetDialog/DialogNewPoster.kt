@@ -13,18 +13,22 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.posterr.PosterViewModel
-import com.example.posterr.R
 import com.example.posterr.models.Poster
+import com.example.posterr.R
+
 
 const val MAX_LENGTH = 777
 
-class DialogNewPoster: DialogFragment() {
+class DialogNewPoster(addPoster: Boolean = true, position: Int?): DialogFragment() {
 
     private lateinit var tvTitle: TextView
     private lateinit var edtTextPost: EditText
     private lateinit var tvCountText: TextView
     private lateinit var btnPositive: AppCompatButton
     private lateinit var btnNegative: AppCompatButton
+    private lateinit var btnComment: AppCompatButton
+    private val addPoster = addPoster
+    private val posterPosition = position
     private val viewModel: PosterViewModel by lazy {
         activity?.run {
             ViewModelProviders.of(this).get(PosterViewModel::class.java)
@@ -37,10 +41,10 @@ class DialogNewPoster: DialogFragment() {
 
         private const val KEY_TITLE = "KEY_TITLE"
 
-        fun newInstance(title: String): DialogNewPoster {
+        fun newInstance(title: String, isPoster: Boolean = true, position:Int?): DialogNewPoster {
             val args = Bundle()
             args.putString(KEY_TITLE, title)
-            val fragment = DialogNewPoster()
+            val fragment = DialogNewPoster(isPoster, position)
             fragment.arguments = args
             return fragment
         }
@@ -62,6 +66,16 @@ class DialogNewPoster: DialogFragment() {
         edtTextPost = view.findViewById(R.id.edtTextPost)
         btnPositive = view.findViewById(R.id.btnPositive)
         btnNegative = view.findViewById(R.id.btnNegative)
+        btnComment = view.findViewById(R.id.btnComment)
+
+        if(addPoster) {
+            btnPositive.visibility = View.VISIBLE
+            btnComment.visibility = View.INVISIBLE
+        } else {
+            btnPositive.visibility = View.INVISIBLE
+            btnComment.visibility = View.VISIBLE
+        }
+
         setupView()
         setupClickListeners()
         managerCountCaracters()
@@ -82,7 +96,11 @@ class DialogNewPoster: DialogFragment() {
     private fun setupClickListeners() {
         btnPositive.isEnabled = false
         btnPositive.setOnClickListener {
-            viewModel.addNewPoster(Poster(edtTextPost.text.toString()))
+            viewModel.addNewPoster(Poster(edtTextPost.text.toString(), mutableListOf()))
+            dismiss()
+        }
+        btnComment.setOnClickListener {
+            viewModel.addNewComment(posterPosition!!, edtTextPost.text.toString())
             dismiss()
         }
         btnNegative.setOnClickListener {

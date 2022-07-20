@@ -1,5 +1,6 @@
 package com.example.posterr.models
 
 data class Poster(
-    var text: String
+    var text: String,
+    val list: MutableList<String>
 )
