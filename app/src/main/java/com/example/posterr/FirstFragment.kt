@@ -5,8 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,6 +53,7 @@ class FirstFragment : Fragment() {
     private fun initRecyclerView() {
         posterAdapter = PosterAdapter(
             viewModel.getListPosters(),
+            this::openListComments,
             this::addComment,
             this::rePost
         )
@@ -70,6 +70,15 @@ class FirstFragment : Fragment() {
         viewModel.reloadItemList().observe(viewLifecycleOwner, Observer {
             posterAdapter.notifyItemChanged(it)
         })
+    }
+
+    private fun openListComments(positionPost: Int){
+        val fragment = ListCommentsPostFragment()
+        val bundle: Bundle = bundleOf("postPosition" to positionPost)
+        fragment.arguments = bundle
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.nav_host_fragment_content_main, fragment, "findThisFragment")
+            ?.addToBackStack(null)?.commit()
     }
 
     private fun addComment(posterPosition:Int) {

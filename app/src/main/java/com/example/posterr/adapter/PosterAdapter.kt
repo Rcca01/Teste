@@ -11,6 +11,7 @@ import com.example.posterr.models.Poster
 
 class PosterAdapter(
     private val posters: MutableList<Poster>,
+    private val openListComments: (position:Int) -> Unit,
     private val addComment: (position:Int) -> Unit,
     private val rePost: (message: String, position:Int) -> Unit
 ): RecyclerView.Adapter<PosterAdapter.VH>() {
@@ -19,7 +20,7 @@ class PosterAdapter(
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
         val vh = VH(v)
         vh.layoutEvent.setOnClickListener {
-            Log.d("ItemPoster", posters[vh.absoluteAdapterPosition].list.size.toString())
+            openListComments(vh.absoluteAdapterPosition)
         }
         vh.btnRePost.setOnClickListener {
             rePost(vh.textPoster.text.toString(), vh.absoluteAdapterPosition)
