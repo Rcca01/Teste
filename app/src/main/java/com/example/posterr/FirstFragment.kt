@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.posterr.adapter.PosterAdapter
 import com.example.posterr.bottomSheetDialog.DialogNewPoster
 import com.example.posterr.databinding.FragmentFirstBinding
+import com.example.posterr.models.Poster
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -51,7 +52,11 @@ class FirstFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        posterAdapter = PosterAdapter(viewModel.getListPosters(),this::addComment)
+        posterAdapter = PosterAdapter(
+            viewModel.getListPosters(),
+            this::addComment,
+            this::rePost
+        )
         rvPoster.adapter = posterAdapter
         val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rvPoster.layoutManager = layoutManager
@@ -70,6 +75,11 @@ class FirstFragment : Fragment() {
     private fun addComment(posterPosition:Int) {
         val dialog = DialogNewPoster.newInstance("New Comment", false, posterPosition)
         dialog.show(requireActivity().supportFragmentManager, "FirstFragment")
+    }
+
+    private fun rePost(textMessage: String, posterPosition:Int){
+        viewModel.rePost(posterPosition)
+        viewModel.addNewPoster(Poster(textMessage, mutableListOf()))
     }
 
     override fun onDestroyView() {

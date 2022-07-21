@@ -14,6 +14,7 @@ class PosterViewModel: ViewModel() {
     private val itemList: MutableLiveData<Int> = MutableLiveData()
     fun reloadItemList(): LiveData<Int> = itemList
 
+
     fun addNewPoster(poster: Poster) {
         posters.add(0, poster)
         listPoster.postValue(posters)
@@ -21,6 +22,11 @@ class PosterViewModel: ViewModel() {
 
     fun addNewComment(position:Int, text: String){
         posters[position].list.add(text)
+        itemList.postValue(position)
+    }
+
+    fun rePost(position:Int) {
+        posters[position].numRepost = posters[position].numRepost +1
         itemList.postValue(position)
     }
 

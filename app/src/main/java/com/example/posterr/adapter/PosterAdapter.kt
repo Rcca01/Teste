@@ -11,7 +11,8 @@ import com.example.posterr.models.Poster
 
 class PosterAdapter(
     private val posters: MutableList<Poster>,
-    private val addComment: (position:Int) -> Unit
+    private val addComment: (position:Int) -> Unit,
+    private val rePost: (message: String, position:Int) -> Unit
 ): RecyclerView.Adapter<PosterAdapter.VH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -19,6 +20,9 @@ class PosterAdapter(
         val vh = VH(v)
         vh.layoutEvent.setOnClickListener {
             Log.d("ItemPoster", posters[vh.absoluteAdapterPosition].list.size.toString())
+        }
+        vh.btnRePost.setOnClickListener {
+            rePost(vh.textPoster.text.toString(), vh.absoluteAdapterPosition)
         }
         vh.btnComment.setOnClickListener {
             addComment(vh.absoluteAdapterPosition)
@@ -30,8 +34,9 @@ class PosterAdapter(
         val text = posters[position].text
         holder.textPoster.text = text
         val numComments = posters[position].list.size
+        val numRepost = posters[position].numRepost
         holder.tvNumComment.text =  "$numComments Comments"
-        holder.tvNumRepost.text = "0 Repost"
+        holder.tvNumRepost.text = "$numRepost Repost"
     }
 
     override fun getItemCount(): Int = posters.size
