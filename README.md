@@ -1,5 +1,12 @@
 # posterr
 
+- Reflect on this project, and write what you would improve if you had more time.
+
+Improve the layout.
+I would make a list of comments within the post itself.
+I would create a mechanism to change the default user, making the tests faithful to the project.
+I would put animation in the icons and screen calls.
+
 - Assuming you've got multiple crash reports and reviews saying the app is not working properly and is slow for specific models, 
 what would be your strategy to tackle the problem?
 
